@@ -1,28 +1,30 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="BC_REGISTOR:jar">
+  <artifact name="BC_REGISTOR:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/BC_REGISTOR_jar</output-path>
-    <root id="archive" name="BC_REGISTOR.jar">
-      <element id="module-output" name="BC_REGISTOR" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/gson-2.8.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/guava-19.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/testng-7.1.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/javax.inject-1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/snakeyaml-1.21.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/aopalliance-1.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/jcommander-1.72.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/opentest4j-1.1.1.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/guice-4.1.0-no_aop.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/commons-logging-1.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/junit-jupiter-5.4.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/protobuf-java-3.11.4.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/apiguardian-api-1.0.0.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/bcprov-jdk15on-166 (1).jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/junit-jupiter-api-5.4.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/junit-jupiter-engine-5.4.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/junit-jupiter-params-5.4.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/junit-platform-engine-1.4.2.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/mysql-connector-java-8.0.21.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/External/junit-platform-commons-1.4.2.jar" path-in-jar="/" />
+    <root id="root">
+      <element id="archive" name="BC_REGISTOR.jar">
+        <element id="module-output" name="BC_REGISTOR" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/External/gson-2.8.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/guava-19.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/testng-7.1.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/javax.inject-1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/snakeyaml-1.21.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/aopalliance-1.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/jcommander-1.72.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/opentest4j-1.1.1.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/guice-4.1.0-no_aop.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/commons-logging-1.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-5.4.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/protobuf-java-3.11.4.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/apiguardian-api-1.0.0.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/bcprov-jdk15on-166 (1).jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-api-5.4.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-engine-5.4.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-params-5.4.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/junit-platform-engine-1.4.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/mysql-connector-java-8.0.21.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/junit-platform-commons-1.4.2.jar" />
     </root>
   </artifact>
 </component>

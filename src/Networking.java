@@ -1,3 +1,5 @@
+import org.junit.jupiter.api.parallel.Execution;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
@@ -10,14 +12,15 @@ import java.util.ArrayList;
 public class Networking {
 
     public static ArrayList<String> IPs = new ArrayList<>();
+    public static ArrayList<String> INACTIVE_IPS = new ArrayList<>();
 
     public static void Network_Accept(){
         try{
             System.out.println("Waiting For Connection!!!");
-            ServerSocket serverSocket = new ServerSocket(10);
+            ServerSocket serverSocket = new ServerSocket(20);
             Socket socket = serverSocket.accept();
-            System.out.println("Got Connection From "+ socket.getInetAddress());
-            System.out.println("Checking Server Ver on "+ socket.getInetAddress());
+            System.out.println("[LOG] Got Connection From "+ socket.getInetAddress());
+            System.out.println("[LOG] Checking Server Ver on "+ socket.getInetAddress());
 
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -38,6 +41,49 @@ public class Networking {
         }
     }
 
+    public static void Ping_Master(){
+        ArrayList<String> Current_Checking_IP = new ArrayList<>(1);
+        while (true) {
+            try{
+                for (String IP: IPs){
+                    System.out.println("[LOG] Trying to Ping: "+ IP);
+                    Current_Checking_IP.add(IP);
+                    Socket socket = new Socket(IP, 10000);
+                    socket.setSoTimeout(10);
+                    System.out.println("[LOG] IP: "+ IP + " Is Active: " + socket.isConnected());
+                    socket.close();
+                }
+            }catch (Exception EX){
+                System.out.println("[LOG] Removing: " + Current_Checking_IP.get(0));
+                INACTIVE_IPS.add(Current_Checking_IP.get(0));
+                IPs.remove(Current_Checking_IP.get(0));
+                Current_Checking_IP.remove(0);
+
+            }
+        }
+    }
+
+    public static void Status_Net(){
+        while(true){
+            try{
+                ServerSocket serverSocket = new ServerSocket(30);
+                Socket socket = serverSocket.accept();
+                System.out.println("GOT REQUEST FROM DEVICE: "+ socket.getInetAddress());
+
+
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                String request = (String) objectInputStream.readObject();
+
+                if (request.matches("Net_Status")){
+                    objectOutputStream.writeObject("Active");
+                }
+            }catch (Exception ex){
+
+            }
+        }
+    }
     public static String Curr_Ver(){
         String Ver = "";
         try{

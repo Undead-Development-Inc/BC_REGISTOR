@@ -1,35 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="BC_REGISTOR:jar" />
+    </artifacts-to-build>
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2defeb36-de42-4780-97d1-3c9d85327066" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BC_REGISTOR.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/aopalliance-1.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/apiguardian-api-1.0.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/bcprov-jdk15on-166 (1).jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/commons-logging-1.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/gson-2.8.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/guava-19.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/guice-4.1.0-no_aop.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/javax.inject-1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/jcommander-1.72.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-5.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-api-5.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-engine-5.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/junit-jupiter-params-5.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/junit-platform-commons-1.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/junit-platform-engine-1.4.2.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/mysql-connector-java-8.0.21.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/opentest4j-1.1.1.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/protobuf-java-3.11.4.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/snakeyaml-1.21.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/External/testng-7.1.0.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/DataBase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Networking.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Settings.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/artifacts/BC_REGISTOR_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/DataBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BC_REGISTOR/DataBase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/Networking.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BC_REGISTOR/Networking.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Networking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Networking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,11 +44,11 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/External" />
-    <property name="project.structure.last.edited" value="Modules" />
-    <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.main">
     <configuration name="Networking" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Networking" />
       <module name="BC_REGISTOR" />
@@ -72,8 +56,16 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="main" />
+      <module name="BC_REGISTOR" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.main" />
         <item itemvalue="Application.Networking" />
       </list>
     </recent_temporary>
@@ -99,6 +91,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />

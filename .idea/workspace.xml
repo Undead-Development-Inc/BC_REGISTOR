@@ -8,7 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="2defeb36-de42-4780-97d1-3c9d85327066" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/BC_REGISTOR_jar/run.sh" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/BC_REGISTOR_jar/run.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Networking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Networking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

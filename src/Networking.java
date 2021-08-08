@@ -13,6 +13,7 @@ public class Networking {
 
     public static ArrayList<String> IPs = new ArrayList<>();
     public static ArrayList<String> INACTIVE_IPS = new ArrayList<>();
+    public static ArrayList<Thread> Active_Threads = new ArrayList<>();
 
     public static void Network_Accept(){
         try{
@@ -101,5 +102,42 @@ public class Networking {
             System.out.println(exception);
         }
         return Ver;
+    }
+
+    public static void Remote_Command(){
+        System.out.println("Waiting For Connection on Remote Command");
+        while(true){
+            try{
+                ServerSocket ss = new ServerSocket(40);
+                Socket socket = ss.accept();
+
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                System.out.println("Got Connection from: "+ socket.getInetAddress());
+
+                String Request = (String) objectInputStream.readObject();
+
+                if(Request.matches("UPDATE")){
+                    System.out.println("Updating System");
+                    Process p = Runtime.getRuntime().exec("reboot");
+                }
+
+                if(Request.matches("Stop_Connections")){
+                    System.out.println("Stopping Threads");
+                    Stop_Connections();
+                }
+            }catch (Exception ex){
+                System.out.println(ex);
+            }
+        }
+    }
+
+    public static void Stop_Connections(){
+        for(Thread thread: Active_Threads){
+            System.out.println("Closing Thread: "+ thread);
+            thread.stop();
+        }
+        Active_Threads.clear();
+        return;
     }
 }

@@ -14,6 +14,7 @@ public class Networking {
     public static ArrayList<String> IPs = new ArrayList<>();
     public static ArrayList<String> INACTIVE_IPS = new ArrayList<>();
     public static ArrayList<Thread> Active_Threads = new ArrayList<>();
+    public static ArrayList<String> Logs = new ArrayList<>();
 
     public static void Network_Accept(){
         try{
@@ -29,11 +30,13 @@ public class Networking {
             String SVER = (String) ois.readObject();
 
             if(SVER.matches(Curr_Ver())){
+                Logs.add("Network ACCEPTED Connection from: "+ socket.getInetAddress());
                 if(!DataBase.FIND_Masters(socket.getInetAddress().toString())){
                     DataBase.ADD_Master(socket.getInetAddress().toString(), SVER);
                     oos.writeObject(IPs);
                 }
             }else {
+                Logs.add("Network DENIED Connection from: "+ socket.getInetAddress());
                 System.out.println("ERROR ON SERVER: VER DOSE NOT MATCH HOST");
                 oos.writeObject(0);
             }
@@ -47,14 +50,17 @@ public class Networking {
         while (true) {
             try{
                 for (String IP: IPs){
+                    Logs.add("Trying to Ping: "+ IP);
                     System.out.println("[LOG] Trying to Ping: "+ IP);
                     Current_Checking_IP.add(IP);
                     Socket socket = new Socket(IP, 10000);
                     socket.setSoTimeout(10);
                     System.out.println("[LOG] IP: "+ IP + " Is Active: " + socket.isConnected());
+                    Logs.add("Ping ALIVE: "+ IP);
                     socket.close();
                 }
             }catch (Exception EX){
+                Logs.add("FAILED to Ping: "+ Current_Checking_IP.get(0));
                 System.out.println("[LOG] Removing: " + Current_Checking_IP.get(0));
                 INACTIVE_IPS.add(Current_Checking_IP.get(0));
                 IPs.remove(Current_Checking_IP.get(0));
@@ -117,6 +123,20 @@ public class Networking {
 
                 String Request = (String) objectInputStream.readObject();
 
+                if(Request.matches("Curr_Ver")){
+                    objectOutputStream.writeObject(Curr_Ver());
+                }
+
+                if(Request.matches("GET_LOGS")){
+                    System.out.println("Got Request for Logs");
+                    objectOutputStream.writeObject(Logs);
+                }
+
+                if(Request.matches("GET_CURR_THREADS")){
+                    System.out.println("Request to Get Threads");
+                    objectOutputStream.writeObject(Networking.Active_Threads);
+                }
+
                 if(Request.matches("UPDATE")){
                     System.out.println("Updating System");
                     Process p = Runtime.getRuntime().exec("reboot");
@@ -127,7 +147,7 @@ public class Networking {
                     Stop_Connections();
                 }
             }catch (Exception ex){
-                System.out.println(ex);
+
             }
         }
     }

@@ -154,7 +154,7 @@ public class Networking {
                     System.out.println("Stopping Threads");
                     Stop_Connections();
                 }
-                socket.close();
+                
             }catch (Exception ex){
 
             }

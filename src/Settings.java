@@ -4,4 +4,5 @@ public class Settings {
     static String DBUSER = "u433204257_bc1";
     static String DBPASS = "Booboo3903@598329002";
     static String DBTABLE_REG = "Records";
+    static String DBREG_REG = "Reg";
 }

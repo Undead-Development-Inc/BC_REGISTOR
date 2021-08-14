@@ -28,6 +28,31 @@ public class DataBase {
         return;
     }
 
+    public static Boolean FIND_DNSNODE(String SIP){
+        try{
+            Class.forName(Settings.DBDRIVER);
+            Connection conn = DriverManager.getConnection(Settings.DBURL, Settings.DBUSER, Settings.DBPASS);
+
+            String Query = "SELECT * FROM "+ Settings.DBREG_REG;
+
+            Statement st = conn.createStatement();
+
+            ResultSet rs = st.executeQuery(Query);
+
+            while (rs.next()){
+                String IP = (String) rs.getString("IP");
+                if (IP.matches(SIP)){
+                    return true;
+                }
+            }
+            st.close();
+
+        }catch (Exception ex){
+            System.out.println("Error in DB_GET_MASTERS: "+ ex);
+        }
+        return false;
+    }
+
     public static Boolean FIND_Masters(String SIP){
         try{
             Class.forName(Settings.DBDRIVER);
@@ -64,6 +89,28 @@ public class DataBase {
 
             preparedStatement.setString(1, IP);
             preparedStatement.setString(2, Ver);
+
+            preparedStatement.execute();
+
+            conn.close();
+
+        }catch (Exception ex){
+            System.out.println("Error in DB_ADD_Master: "+ ex);
+        }
+        return;
+    }
+
+    public static void ADD_REGISTOR(){
+        try{
+            Class.forName(Settings.DBDRIVER);
+            Connection conn = DriverManager.getConnection(Settings.DBURL, Settings.DBUSER, Settings.DBPASS);
+
+            String Query = "insert into "+ Settings.DBREG_REG + " (IP)" + "values (?)";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(Query);
+
+            preparedStatement.setString(1, Networking.My_IP());
+
 
             preparedStatement.execute();
 

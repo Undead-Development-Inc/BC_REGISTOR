@@ -16,6 +16,14 @@ public class Networking {
     public static ArrayList<Thread> Active_Threads = new ArrayList<>();
     public static ArrayList<String> Logs = new ArrayList<>();
 
+    public static void ADD_NET(){
+        if(!DataBase.FIND_DNSNODE(My_IP())){
+            System.out.println("Adding self to registry");
+            DataBase.ADD_REGISTOR();
+        }
+        return;
+    }
+
     public static void Network_Accept(){
         try{
             System.out.println("Waiting For Connection!!!");
@@ -150,6 +158,20 @@ public class Networking {
 
             }
         }
+    }
+
+    public static String My_IP(){
+        String PublicIP = "";
+        try{
+            URL checkip = new URL("http://checkip.amazonaws.com");
+            BufferedReader in = new BufferedReader(new InputStreamReader(checkip.openStream()));
+            String IP = in.readLine();
+            PublicIP += IP;
+            return IP;
+        }catch (Exception ex){
+
+        }
+        return PublicIP;
     }
 
     public static void Stop_Connections(){

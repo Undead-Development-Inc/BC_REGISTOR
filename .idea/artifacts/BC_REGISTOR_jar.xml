@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact name="BC_REGISTOR:jar">
+  <artifact build-on-make="true" name="BC_REGISTOR:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/BC_REGISTOR_jar</output-path>
     <root id="root">
       <element id="archive" name="BC_REGISTOR.jar">

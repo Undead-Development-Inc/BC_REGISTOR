@@ -3,7 +3,7 @@ public class QCCHAIN {
 
     public static void main(String[] args) throws Exception {
         StringUtil.HASH();
-        new G_BLOCK().SETUP_GBLOCK();
+
         new TEST_SEQ().Test_Chain();
         Thread thread = new Thread(Networking::APINETWORK);
         System.out.println("GENESES BLOCK HAS IS: "+ Blockchain.BlockChain.get(0).getBlockHash());

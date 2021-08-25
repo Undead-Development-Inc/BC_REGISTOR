@@ -2,7 +2,7 @@ public class main {
     public static void main(String[] agrs) throws Exception {
         StringUtil.HASH();
         //new G_BLOCK().SETUP_GBLOCK();
-        new TEST_SEQ().Test_Chain();
+        //new TEST_SEQ().Test_Chain();
         Networking.ADD_NET();
         DataBase.Get_Masters();
         Thread Network_CORE = new Thread(Networking::Network_Accept);

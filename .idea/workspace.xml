@@ -90,7 +90,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627345457331</updated>
-      <workItem from="1629850634400" duration="23443000" />
+      <workItem from="1629850634400" duration="28364000" />
     </task>
     <servers />
   </component>
@@ -141,9 +141,13 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2360" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629908518768" />
-    <state x="162" y="-8" width="1424" height="717" maximized="true" key="dock-window-1" timestamp="1629912204202">
+    <state x="162" y="-8" width="1424" height="717" key="dock-window-1" timestamp="1629913933967">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="162" y="-8" width="1424" height="717" maximized="true" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629912204202" />
+    <state x="162" y="-8" width="1424" height="717" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629913933967" />
+    <state x="2262" y="181" key="new project wizard" timestamp="1629912823517">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2262" y="181" key="new project wizard/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629912823517" />
   </component>
 </project>

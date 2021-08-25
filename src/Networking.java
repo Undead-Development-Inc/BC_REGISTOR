@@ -419,8 +419,17 @@ public class Networking {
                     objectOutputStream.writeObject(new Difficulty().difficulty());
                 }
 
+                if(req.matches("GET_BC_UPDATE")){
+                    objectOutputStream.writeObject(Blockchain.BlockChain);
+                }
 
+                if(req.matches("GET_NEW_TRANSACTIONS")){
+                    objectOutputStream.writeObject(Blockchain.Mine_Transactions);
+                }
 
+                if(req.matches("GET_NEW_MINED_BLOCKS")){
+                    objectOutputStream.writeObject(Blockchain.MBlocks_NV);
+                }
 
 
 

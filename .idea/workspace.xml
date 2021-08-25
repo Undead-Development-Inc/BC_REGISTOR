@@ -39,7 +39,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/External/bcprov-jdk16-1.46.jar" />
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -90,7 +90,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627345457331</updated>
-      <workItem from="1629850634400" duration="17575000" />
+      <workItem from="1629850634400" duration="19036000" />
     </task>
     <servers />
   </component>
@@ -113,25 +113,33 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1629905696987">
+    <state x="2586" y="261" key="FileChooserDialogImpl" timestamp="1629907432170">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629905696987" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1629905696987">
+    <state x="2586" y="261" key="FileChooserDialogImpl/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629907432170" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1629907376353">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629905696987" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1629905696986">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629907376353" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1629907376353">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629905696986" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1629905696987">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629907376353" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1629907376353">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629905696987" />
-    <state x="162" y="-8" width="1424" height="717" maximized="true" key="dock-window-1" timestamp="1629905939392">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629907376353" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1629907376353">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629907376353" />
+    <state x="2360" y="94" key="SettingsEditor" timestamp="1629907436715">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2360" y="94" key="SettingsEditor/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629907436715" />
+    <state x="162" y="-8" width="1424" height="717" key="dock-window-1" timestamp="1629906686417">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="162" y="-8" width="1424" height="717" maximized="true" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629905939392" />
+    <state x="162" y="-8" width="1424" height="717" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629906686417" />
   </component>
 </project>

@@ -18,13 +18,13 @@
       <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-5.4.2.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/protobuf-java-3.11.4.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/apiguardian-api-1.0.0.jar" />
-      <element id="file-copy" path="$PROJECT_DIR$/External/bcprov-jdk15on-166 (1).jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-api-5.4.2.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-engine-5.4.2.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/junit-jupiter-params-5.4.2.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/junit-platform-engine-1.4.2.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/mysql-connector-java-8.0.21.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/External/junit-platform-commons-1.4.2.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/External/bcprov-jdk16-1.46.jar" />
     </root>
   </artifact>
 </component>

@@ -15,6 +15,8 @@ public class Networking {
     public static ArrayList<String> INACTIVE_IPS = new ArrayList<>();
     public static ArrayList<Thread> Active_Threads = new ArrayList<>();
     public static ArrayList<String> Logs = new ArrayList<>();
+    public static Package_Blocks package_blocks;
+    public static ArrayList<String> IPDNS_SYNC_NODES = new ArrayList<>();
 
     public static void ADD_NET(){
         if(!DataBase.FIND_DNSNODE(My_IP())){
@@ -24,7 +26,7 @@ public class Networking {
         return;
     }
 
-    public static void Network_Accept(){
+    public static void Network_Accept(){ ///GETS CONNECTION AND VERIFIES AND ADDS MASTERS IF VALID!
         try{
             System.out.println("Waiting For Connection!!!");
             ServerSocket serverSocket = new ServerSocket(20);
@@ -53,19 +55,79 @@ public class Networking {
         }
     }
 
-    public static void Ping_Master(){
+    public static void Network_GET() {  ///THIS IS THE MASTER PING SERVER
+        while (true) {
+            try {
+                ServerSocket ss = new ServerSocket(10000);
+                System.out.println("Waiting for Connection from a server");
+                Socket socket = ss.accept();
+                System.out.println("GOT connection from IP: "+ socket.getInetAddress());
+
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+
+                if(socket.isConnected()){
+
+
+                    String Master_Ver = (String) ois.readObject();
+                    ArrayList<String> Temp_List = new ArrayList<>();
+
+                    System.out.println("Current WW Ver: "+ Curr_Ver());
+                    System.out.println("Current Requested Server Ver: "+ Master_Ver);
+                    System.out.println("MATCHES: "+ Curr_Ver().matches(Master_Ver));
+
+                    if (Master_Ver.equals(Curr_Ver())) {
+                        System.out.println("VER MATCHED - CHECKING IF MASTER IN LIST");
+                        if (!IPs.contains(socket.getInetAddress().toString())) {
+                            IPs.add(socket.getInetAddress().toString());
+                            System.out.println("MASTER VALIDATED: "+ socket.getInetAddress());
+                        }else {
+                            System.out.println("Master Not Added -- Already IN LIST");
+                        }
+                        for (String IP : IPs) {
+                            if (!IP.matches(socket.getInetAddress().toString())) {
+                                Temp_List.add(IP);
+                                System.out.println("Added Master to temp list: "+ IP);
+                            }
+                        }
+                        oos.write(1);
+                    }
+                    if(Temp_List.isEmpty()){
+                        oos.writeObject(true);
+                    }else {
+                        oos.writeObject(false);
+                        oos.writeObject(Temp_List);
+                    }
+                } else {
+                    oos.write(0); //0 IS FALSE -NOT ADDED
+                }
+
+                oos.close();
+                ois.close();
+                socket.close();
+
+
+            } catch (Exception ex) {
+
+            }
+        }
+    }
+
+    public static void Ping_Master(){   //PINGS ANY MASTER SERVER
         ArrayList<String> Current_Checking_IP = new ArrayList<>(1);
         while (true) {
             try{
                 for (String IP: IPs){
                     Logs.add("Trying to Ping: "+ IP);
-                    System.out.println("[LOG] Trying to Ping: "+ IP);
-                    Current_Checking_IP.add(IP);
-                    Socket socket = new Socket(IP, 10000);
-                    socket.setSoTimeout(10);
-                    System.out.println("[LOG] IP: "+ IP + " Is Active: " + socket.isConnected());
-                    Logs.add("Ping ALIVE: "+ IP);
-                    socket.close();
+                    if(!IP.matches(My_IP())) {
+                        System.out.println("[LOG] Trying to Ping: " + IP);
+                        Current_Checking_IP.add(IP);
+                        Socket socket = new Socket(IP, 10000);
+                        socket.setSoTimeout(10);
+                        System.out.println("[LOG] IP: " + IP + " Is Active: " + socket.isConnected());
+                        Logs.add("Ping ALIVE: " + IP);
+                        socket.close();
+                    }
                 }
             }catch (Exception EX){
                 Logs.add("FAILED to Ping: "+ Current_Checking_IP.get(0));
@@ -78,28 +140,7 @@ public class Networking {
         }
     }
 
-    public static void Status_Net(){
-        while(true){
-            try{
-                ServerSocket serverSocket = new ServerSocket(30);
-                Socket socket = serverSocket.accept();
-                System.out.println("GOT REQUEST FROM DEVICE: "+ socket.getInetAddress());
-
-
-                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-
-                String request = (String) objectInputStream.readObject();
-
-                if (request.matches("Net_Status")){
-                    objectOutputStream.writeObject("Active");
-                }
-            }catch (Exception ex){
-
-            }
-        }
-    }
-    public static String Curr_Ver(){
+    public static String Curr_Ver(){   //THIS PRODUCES THE CURRENT NETWORK (MASTER) VERSION EXPECTED
         String Ver = "";
         try{
             URL url = new URL("http://qcnetworks.ca/master/verr.php");
@@ -118,7 +159,36 @@ public class Networking {
         return Ver;
     }
 
-    public static void Remote_Command(){
+
+    //THIS VERIFYS MASTER VERSIONS
+    public static void VERIFY_MASTER_VER(){
+        ArrayList<String> current = new ArrayList<>(1);
+        while(true){
+            try{
+                for(String mIP: IPs){
+                    current.add(mIP);
+                    System.out.println("Connecting to " + mIP);
+                    Socket socket = new Socket(mIP, 10000);
+                    current.remove(1);
+
+                    ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                    ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+
+                    oos.writeObject(QCCHAIN.Ver);
+
+                    oos.close();
+                    ois.close();
+                    socket.close();
+                }
+            }catch (Exception ex){
+                IPs.remove(current.get(1));
+                System.out.println("Removing: "+ current.get(1));
+                current.remove(1);
+            }
+        }
+    }
+
+    public static void Remote_Command(){    ///THIS IS A REMOTE SERVER NET FUNCTION TO GET COMMANDS AND RUN THEM
         System.out.println("Waiting For Connection on Remote Command");
         while(true){
             try{
@@ -182,5 +252,98 @@ public class Networking {
         }
         Active_Threads.clear();
         return;
+    }
+
+
+    public static void Pack_ME(){
+        Package_Blocks package_blocks1 = new Package_Blocks();
+        package_blocks1.blockchain = Blockchain.BlockChain;
+        package_blocks1.Newly_MinedBlocks = Blockchain.MBlocks_NV;
+        package_blocks1.Newly_CreatedTransactions = Blockchain.Mine_Transactions;
+        package_blocks = package_blocks1;
+        return;
+    }
+
+    public static void APINETWORK() {
+        System.out.println("TRYING");
+        try {
+            while (true) {
+                package_blocks = null;
+                Pack_ME();
+                System.out.println("WAITING FOR CONNECTION");
+                ServerSocket serverSocket = new ServerSocket(Settings.INET_Trans_Port);
+                Socket socket = serverSocket.accept();
+                System.out.println("CONNECTED!!!");
+                socket.setSoTimeout(10000);
+
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                String req = (String) objectInputStream.readObject();
+
+
+
+                if(req.matches("PUSH_MBLOCK")){
+                    Block New_Blocks = (Block) objectInputStream.readObject();
+                    System.out.println("GOT NEW BLOCK: "+ New_Blocks);
+                    Blockchain.MBlocks_NV.add(New_Blocks);
+                    System.out.println("BLOCK-SIZE: "+ Blockchain.MBlocks_NV.size());
+                    if(!Blockchain.MBlocks_NV.contains(New_Blocks)){
+                        throw new Exception("BLOCK NOT FOUND!!!");
+                    }
+                    Blockchain.Add_To_Chain();//
+//                    Blockchain.BlockChain.add(New_Blocks);
+                    objectInputStream.close();
+                    objectOutputStream.close();
+                }
+
+                if(req.matches("PUSH_N_TRANSACTIONS")){
+                    ArrayList<Transaction> New_Transactions = (ArrayList<Transaction>) objectInputStream.readObject();
+                    for(Transaction transaction: New_Transactions){
+                        if(!Blockchain.Mine_Transactions.contains(transaction)){
+                            System.out.println("ADDED NEW TRANSACTION: "+ transaction);
+                            Blockchain.Mine_Transactions.add(transaction);
+                        }
+                    }
+                }
+
+                if(req.matches("Wallet")){
+                    if(Blockchain.Net_Wallets.size() == 0){
+                        Wallet newwallet = new Wallet();
+                        newwallet = new Wallet();
+                        Blockchain.Net_Wallets.add(newwallet);
+                        objectOutputStream.writeObject(newwallet);
+                        System.out.println("MADE AND SENT NEW WALLET");
+                    }else {
+                        objectOutputStream.writeObject(Blockchain.Net_Wallets.get(0));
+                        System.out.println("SEND WALLET");
+                    }
+                }
+
+                if(req.matches("Get_Balance")){
+                    Wallet wallet = (Wallet) objectInputStream.readObject();
+                    objectOutputStream.writeObject(wallet.Balance(wallet));
+                    System.out.println("RETURNED BALLET BALANCE");
+                }
+
+                if(req.matches("Get_Difficulty")){
+                    objectOutputStream.writeObject(new Difficulty().difficulty());
+                }
+
+
+
+
+
+
+                objectInputStream.close();
+                objectOutputStream.close();
+                socket.close();
+                serverSocket.close();
+            }
+
+        } catch (Exception ex) {
+            System.out.println(Settings.RED + ex);
+        }
+
     }
 }

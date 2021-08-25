@@ -199,9 +199,9 @@ public class Networking {
                     socket.close();
                 }
             }catch (Exception ex){
-                IPs.remove(current.get(1));
-                System.out.println("Removing: "+ current.get(1));
-                current.remove(1);
+                IPs.remove(current.get(0));
+                System.out.println("Removing: "+ current.get(0));
+                current.remove(0);
             }
         }
     }

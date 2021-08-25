@@ -1,7 +1,7 @@
 public class main {
     public static void main(String[] agrs) throws Exception {
         StringUtil.HASH();
-        //new G_BLOCK().SETUP_GBLOCK();
+        new G_BLOCK().SETUP_GBLOCK();
         //new TEST_SEQ().Test_Chain();
         Networking.ADD_NET();
         DataBase.Get_Masters();

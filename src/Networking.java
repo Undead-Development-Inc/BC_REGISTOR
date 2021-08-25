@@ -29,6 +29,21 @@ public class Networking {
         return;
     }
 
+    public static void ADD_RECORD(){
+        while (true){
+            try {
+                for (Block block : Blockchain.BlockChain) {
+                    if (!DataBase.FIND_RECORD_BLOCK(block)) {
+                        DataBase.ADD_BC_RECORD(block);
+                    }
+                }
+                Thread.sleep(1000);
+            }catch (Exception ex){
+
+            }
+        }
+    }
+
     public static void Network_Accept(){ ///GETS CONNECTION AND VERIFIES AND ADDS MASTERS IF VALID!
         try{
             System.out.println("Waiting For Connection!!!");
@@ -300,12 +315,12 @@ public class Networking {
 
                 if(ois.readObject().getClass() == Message_Package.class){
                     //RECIVING A MESSAGE PACKET
+                    Message_Package message = (Message_Package) ois.readObject();
+                    if(!Blockchain.Temp_Messages.contains(message)){
+                        Blockchain.Temp_Messages.add(message);
+                    }
                 }
 
-                if(ois.readObject().getClass() == Blockchain.BlockChain.getClass()){
-                    //Recived copy of Blockchain
-
-                }
 
                 socket.close();
                 serverSocket.close();

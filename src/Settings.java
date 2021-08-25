@@ -4,6 +4,7 @@ public class Settings {
     static String DBUSER = "u433204257_bc1";
     static String DBPASS = "Booboo3903@598329002";
     static String DBTABLE_REG = "Records";
+    static String DBTABLE_BC = "Blockchain";
     static String DBREG_REG = "Reg";
 
     public static int Max_Block_Transactions = 10;

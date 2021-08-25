@@ -24,6 +24,8 @@ public class Blockchain implements Serializable {
 
     public static ArrayList<Block> MBlocks_NV = new ArrayList<>(); //THIS IS BLOCKS THAT WERE MINED BUT NOT YET VERIFIED!!
 
+    public static ArrayList<Message_Package> Temp_Messages = new ArrayList<>();
+
     public static ArrayList<Wallet> Net_Wallets = new ArrayList<>();
 
     public static ArrayList<String> Net_IPs_Recent = new ArrayList<>();

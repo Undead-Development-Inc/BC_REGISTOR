@@ -10,6 +10,7 @@ public class main {
         Thread Network_API_CORE = new Thread(Networking::APINETWORK);
         Thread Network_PUSH_SERVER = new Thread(Networking::Network_UPDATE_Server);
         Thread Network_PUSH_UPDATE = new Thread(Networking::Network_Master_UPDATE);
+        Thread Network_BC_DB_PUBLISH = new Thread(Networking::ADD_RECORD);
         Networking.Active_Threads.add(Network_CORE);
         Networking.Active_Threads.add(Network_GET);
         Networking.Active_Threads.add(Network_PINGM);
@@ -18,6 +19,7 @@ public class main {
         Networking.Active_Threads.add(Network_API_CORE);
         Networking.Active_Threads.add(Network_PUSH_SERVER);
         Networking.Active_Threads.add(Network_PUSH_UPDATE);
+        Networking.Active_Threads.add(Network_BC_DB_PUBLISH);
 
         for(Thread T: Networking.Active_Threads){
             System.out.println("Checking Thread: "+ T);

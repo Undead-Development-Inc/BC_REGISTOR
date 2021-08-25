@@ -58,6 +58,12 @@ public class Wallet implements Serializable {
         return Bal;
     }
 
+    public void Send_Message(String Message, String PassCode, String Recpt){
+        Message_Package messagePackage = new Message_Package(Message, Recpt, this.privateKey, this.publicKey, PassCode);
+        Networking.Obj_2_Push.add(messagePackage);
+        return;
+    }
+
     public Boolean Send_Funds(Wallet wallet, String too, Float value){
         if(wallet.Balance(wallet) != 0 & wallet.Balance(wallet) >= value){
             Transaction transaction = new Transaction(wallet, too, value, wallet.privateKey);
@@ -149,6 +155,13 @@ public class Wallet implements Serializable {
         }catch (Exception ex){
             System.out.println(ex);
         }
+    }
+
+    String Decrypt_MessagePacket(Message_Package message, String Passcode){
+        if(StringUtil.verifyECDSASig(message.Public_Address_Sender, message.toString() + Passcode, message.Encrypted_Key)){
+            return message.Get_Message(Passcode);
+        }
+        return "";
     }
 
 

@@ -4,16 +4,7 @@ import java.util.Date;
 public class main {
     public static void main(String[] agrs) throws Exception {
         StringUtil.HASH();
-        Wallet blankWallet = new Wallet();
-        blankWallet = new Wallet();
 
-        ArrayList<Transaction> G_BLOCK_TRANSACTION = new ArrayList<>();
-        Block G_Block = new Block(G_BLOCK_TRANSACTION, "", new Date().getTime(), null);
-        G_Block.miner = blankWallet.publicKey;
-        //G_Block.calculateBlockHash();
-        G_Block.diff = 1;
-        System.out.println("The G-Block Hash is: "+ G_Block.getBlockHash());
-        Blockchain.BlockChain.add(G_Block);
         //new TEST_SEQ().Test_Chain();
         Networking.ADD_NET();
         DataBase.Get_Masters();

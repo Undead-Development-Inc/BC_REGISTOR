@@ -10,7 +10,7 @@ public class main {
         ArrayList<Transaction> G_BLOCK_TRANSACTION = new ArrayList<>();
         Block G_Block = new Block(G_BLOCK_TRANSACTION, "", new Date().getTime(), null);
         G_Block.miner = blankWallet.publicKey;
-        G_Block.calculateBlockHash();
+        //G_Block.calculateBlockHash();
         G_Block.diff = 1;
         System.out.println("The G-Block Hash is: "+ G_Block.getBlockHash());
         Blockchain.BlockChain.add(G_Block);

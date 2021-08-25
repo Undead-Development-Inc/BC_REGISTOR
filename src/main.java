@@ -18,6 +18,7 @@ public class main {
         for(Thread T: Networking.Active_Threads){
             System.out.println("Checking Thread: "+ T);
             if(!T.isAlive()){
+                T.start();
                 System.out.println("Starting Thread: "+ T);
             }
         }

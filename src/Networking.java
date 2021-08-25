@@ -1,3 +1,4 @@
+import com.mysql.cj.x.protobuf.MysqlxExpr;
 import org.junit.jupiter.api.parallel.Execution;
 
 import java.io.BufferedReader;
@@ -8,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Networking {
 
@@ -17,6 +19,7 @@ public class Networking {
     public static ArrayList<String> Logs = new ArrayList<>();
     public static Package_Blocks package_blocks;
     public static ArrayList<String> IPDNS_SYNC_NODES = new ArrayList<>();
+    public static ArrayList<Object> Obj_2_Push = new ArrayList<>();
 
     public static void ADD_NET(){
         if(!DataBase.FIND_DNSNODE(My_IP())){
@@ -262,6 +265,77 @@ public class Networking {
         package_blocks1.Newly_CreatedTransactions = Blockchain.Mine_Transactions;
         package_blocks = package_blocks1;
         return;
+    }
+
+    public static void Network_UPDATE_Server(){
+        System.out.println("Starting Update Master Server");
+        while(true){
+            try {
+                ServerSocket serverSocket = new ServerSocket(Settings.Network_Master_UPDATE_SS_PORT);
+                Socket socket = serverSocket.accept();
+
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+
+
+                if(ois.readObject().getClass() == Block.class){
+                    //RECIVING A NEW BLOCK
+                    Block newblock = (Block) ois.readObject();
+                    if(!Blockchain.MBlocks_NV.contains(newblock)){
+                        Blockchain.MBlocks_NV.add(newblock);
+                        Logs.add("Added New Block: "+ newblock.getBlockHash());
+                    }
+                }
+
+                if(ois.readObject().getClass() == Blockchain.Mine_Transactions.getClass()){
+                    //FOR RECIVING ALIST OF TRANSACTIONS IN ARRAY
+                    ArrayList<Transaction> New_Transactions = (ArrayList<Transaction>) ois.readObject();
+                    for(Transaction transaction: New_Transactions){
+                        if(!Blockchain.Mine_Transactions.contains(transaction)){
+                            System.out.println("ADDED NEW TRANSACTION: "+ transaction);
+                            Logs.add("Got New Transaction: "+ transaction.transhash);
+                            Blockchain.Mine_Transactions.add(transaction);
+                        }
+                    }
+                }
+
+                if(ois.readObject().getClass() == Message_Package.class){
+                    //RECIVING A MESSAGE PACKET
+                }
+
+                if(ois.readObject().getClass() == Blockchain.BlockChain.getClass()){
+                    //Recived copy of Blockchain
+
+                }
+
+                socket.close();
+                serverSocket.close();
+            }catch (Exception ex){
+
+            }
+        }
+    }
+
+    public static void Network_Master_UPDATE(){
+        while(true) {
+            for (Object obj : Obj_2_Push) {
+                for (String IP : IPs) {
+                    try {
+                        System.out.println("Attempting PUSH to: " + IP);
+                        Logs.add("Attempting Push to: " + IP);
+                        Socket socket = new Socket(IP, Settings.Network_Master_UPDATE_SS_PORT);
+                        socket.setSoTimeout(10);
+                        Logs.add("PUSH CONNECTION SUCCESSFULL");
+                        System.out.println("Connected to: " + IP);
+
+                        ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+
+                        oos.writeObject(obj);
+                    } catch (Exception ex) {
+
+                    }
+                }
+            }
+        }
     }
 
     public static void APINETWORK() {

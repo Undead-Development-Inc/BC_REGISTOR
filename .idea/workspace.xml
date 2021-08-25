@@ -90,7 +90,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1627345457331</updated>
-      <workItem from="1629850634400" duration="4304000" />
+      <workItem from="1629850634400" duration="9546000" />
     </task>
     <servers />
   </component>
@@ -113,9 +113,9 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="111" y="-13" width="1424" height="717" maximized="true" key="dock-window-1" timestamp="1629854724224">
+    <state x="0" y="0" width="1424" height="717" maximized="true" key="dock-window-1" timestamp="1629858659780">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="111" y="-13" width="1424" height="717" maximized="true" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629854724224" />
+    <state x="0" y="0" width="1424" height="717" maximized="true" key="dock-window-1/0.0.1920.1040/1920.0.1920.1040/3840.0.1920.1040@1920.0.1920.1040" timestamp="1629858659780" />
   </component>
 </project>

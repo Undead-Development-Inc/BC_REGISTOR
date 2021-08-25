@@ -432,8 +432,10 @@ public class Networking {
                 }
 
 
-
-
+                objectInputStream.close();
+                objectOutputStream.close();
+                socket.close();
+                serverSocket.close();
 
             }
 

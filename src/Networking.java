@@ -365,6 +365,44 @@ public class Networking {
         }
     }
 
+    public static void NET_CMD(){
+        try{
+            while (true){
+                ServerSocket serverSocket = new ServerSocket(93);
+                Socket socket = serverSocket.accept();
+
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                String Req = (String) objectInputStream.readObject();
+
+                if(Req.matches("Start_NCORE")){
+                    if(main.Network_CORE.isAlive()){
+                        main.Network_CORE.stop();
+                    }
+                    main.Network_CORE.start();
+                    objectOutputStream.writeObject(main.Network_CORE.isAlive());
+                }
+                if(Req.matches("RESET_THREADS")){
+                    for(Thread thread: Networking.Active_Threads){
+                        Logger.Logme("Killing Thread: "+ thread);
+                        thread.stop();
+                        thread.start();
+                        Logger.Logme("Starting Thread");
+                    }
+                }
+                if(Req.matches("RESET_PROCC")){
+                    Process p = Runtime.getRuntime().exec("systemctl restart dnsnode");
+                }
+                if(Req.matches("RESTART")){
+                    Process p = Runtime.getRuntime().exec("reboot");
+                }
+            }
+        }catch (Exception ex){
+            Logger.Logme(ex.toString());
+        }
+    }
+
     public static void APINETWORK() {
         System.out.println("TRYING");
         try {

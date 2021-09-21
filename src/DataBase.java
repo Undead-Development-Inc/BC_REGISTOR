@@ -105,7 +105,7 @@ public class DataBase {
             Class.forName(Settings.DBDRIVER);
             Connection conn = DriverManager.getConnection(Settings.DBURL, Settings.DBUSER, Settings.DBPASS);
 
-            String Query = "insert into "+ Settings.DBTABLE_REG + " (Log)" + "values (?)";
+            String Query = "insert into "+ Settings.DBREG_LOGs + " (Log)" + "values (?)";
 
             PreparedStatement preparedStatement = conn.prepareStatement(Query);
 

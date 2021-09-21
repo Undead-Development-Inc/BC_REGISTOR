@@ -46,27 +46,30 @@ public class Networking {
 
     public static void Network_Accept(){ ///GETS CONNECTION AND VERIFIES AND ADDS MASTERS IF VALID!
         try{
-            System.out.println("Waiting For Connection!!!");
-            ServerSocket serverSocket = new ServerSocket(20);
-            Socket socket = serverSocket.accept();
-            System.out.println("[LOG] Got Connection From "+ socket.getInetAddress());
-            System.out.println("[LOG] Checking Server Ver on "+ socket.getInetAddress());
+            while (true) {
+                System.out.println("Waiting For Connection!!!");
+                ServerSocket serverSocket = new ServerSocket(20);
+                Socket socket = serverSocket.accept();
+                System.out.println("[LOG] Got Connection From " + socket.getInetAddress());
+                System.out.println("[LOG] Checking Server Ver on " + socket.getInetAddress());
 
-            ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-            ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
 
-            String SVER = (String) ois.readObject();
+                String SVER = (String) ois.readObject();
 
-            if(SVER.matches(Curr_Ver())){
-                Logs.add("Network ACCEPTED Connection from: "+ socket.getInetAddress());
-                if(!DataBase.FIND_Masters(socket.getInetAddress().toString())){
-                    DataBase.ADD_Master(socket.getInetAddress().toString(), SVER);
-                    oos.writeObject(IPs);
+                if (SVER.matches(Curr_Ver())) {
+                    Logs.add("Network ACCEPTED Connection from: " + socket.getInetAddress());
+                    if (!DataBase.FIND_Masters(socket.getInetAddress().toString())) {
+                        DataBase.ADD_Master(socket.getInetAddress().toString(), SVER);
+                        oos.writeObject(IPs);
+                    }
+                } else {
+                    Logs.add("Network DENIED Connection from: " + socket.getInetAddress());
+                    System.out.println("ERROR ON SERVER: VER DOSE NOT MATCH HOST");
+                    oos.writeObject(0);
                 }
-            }else {
-                Logs.add("Network DENIED Connection from: "+ socket.getInetAddress());
-                System.out.println("ERROR ON SERVER: VER DOSE NOT MATCH HOST");
-                oos.writeObject(0);
+
             }
         }catch (Exception ex){
             System.out.println("Error in Network_Accept: "+ ex);
@@ -77,6 +80,7 @@ public class Networking {
         while (true) {
             try {
                 ServerSocket ss = new ServerSocket(10000);
+
                 System.out.println("Waiting for Connection from a server");
                 Socket socket = ss.accept();
                 System.out.println("GOT connection from IP: "+ socket.getInetAddress());
@@ -242,6 +246,7 @@ public class Networking {
                     System.out.println("Stopping Threads");
                     Stop_Connections();
                 }
+                socket.close();
                 
             }catch (Exception ex){
 
@@ -433,8 +438,6 @@ public class Networking {
 
 
 
-                socket.close();
-                serverSocket.close();
 
             }
 

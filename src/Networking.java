@@ -20,6 +20,7 @@ public class Networking {
     public static Package_Blocks package_blocks;
     public static ArrayList<String> IPDNS_SYNC_NODES = new ArrayList<>();
     public static ArrayList<Object> Obj_2_Push = new ArrayList<>();
+    Logger loger = new Logger();
 
     public static void ADD_NET(){
         if(!DataBase.FIND_DNSNODE(My_IP())){
@@ -48,8 +49,10 @@ public class Networking {
         try{
             while (true) {
                 System.out.println("Waiting For Connection!!!");
+                Logger.Logme("Network_Accept Waiting for Connection");
                 ServerSocket serverSocket = new ServerSocket(20);
                 Socket socket = serverSocket.accept();
+                Logger.Logme("Network_Accept Got Connection From: "+ socket.getInetAddress());
                 System.out.println("[LOG] Got Connection From " + socket.getInetAddress());
                 System.out.println("[LOG] Checking Server Ver on " + socket.getInetAddress());
 
@@ -59,12 +62,14 @@ public class Networking {
                 String SVER = (String) ois.readObject();
 
                 if (SVER.matches(Curr_Ver())) {
+                    Logger.Logme("Network_Accept Accepted Connection");
                     Logs.add("Network ACCEPTED Connection from: " + socket.getInetAddress());
                     if (!DataBase.FIND_Masters(socket.getInetAddress().toString())) {
                         DataBase.ADD_Master(socket.getInetAddress().toString(), SVER);
                         oos.writeObject(IPs);
                     }
                 } else {
+                    Logger.Logme("Network_Accept DENIED Connection");
                     Logs.add("Network DENIED Connection from: " + socket.getInetAddress());
                     System.out.println("ERROR ON SERVER: VER DOSE NOT MATCH HOST");
                     oos.writeObject(0);
@@ -72,6 +77,7 @@ public class Networking {
 
             }
         }catch (Exception ex){
+            Logger.Logme(ex.toString());
             System.out.println("Error in Network_Accept: "+ ex);
         }
     }
@@ -130,7 +136,7 @@ public class Networking {
 
 
             } catch (Exception ex) {
-
+                Logger.Logme(ex.toString());
             }
         }
     }
@@ -203,6 +209,7 @@ public class Networking {
                     socket.close();
                 }
             }catch (Exception ex){
+                Logger.Logme(ex.toString());
                 IPs.remove(current.get(0));
                 System.out.println("Removing: "+ current.get(0));
                 current.remove(0);
@@ -249,7 +256,7 @@ public class Networking {
                 socket.close();
                 
             }catch (Exception ex){
-
+                Logger.Logme(ex.toString());
             }
         }
     }
@@ -368,7 +375,7 @@ public class Networking {
                 ServerSocket serverSocket = new ServerSocket(Settings.INET_Trans_Port);
                 Socket socket = serverSocket.accept();
                 System.out.println("CONNECTED!!!");
-                socket.setSoTimeout(10000);
+                socket.setSoTimeout(10);
 
                 ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
@@ -436,12 +443,16 @@ public class Networking {
                     objectOutputStream.writeObject(Blockchain.MBlocks_NV);
                 }
 
-
+                objectInputStream.close();
+                objectOutputStream.close();
+                socket.close();
+                serverSocket.close();
 
 
             }
 
         } catch (Exception ex) {
+            Logger.Logme(ex.toString());
             System.out.println(Settings.RED + ex);
         }
 

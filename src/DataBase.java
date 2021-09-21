@@ -100,6 +100,28 @@ public class DataBase {
         return;
     }
 
+    public static void ADD_LOG(String Log){
+        try{
+            Class.forName(Settings.DBDRIVER);
+            Connection conn = DriverManager.getConnection(Settings.DBURL, Settings.DBUSER, Settings.DBPASS);
+
+            String Query = "insert into "+ Settings.DBTABLE_REG + " (Log)" + "values (?)";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(Query);
+
+            preparedStatement.setString(1, Log);
+
+
+            preparedStatement.execute();
+
+            conn.close();
+
+        }catch (Exception ex){
+            System.out.println("Error in DB_ADD_Master: "+ ex);
+        }
+        return;
+    }
+
 
     public static Boolean FIND_RECORD_BLOCK(Block block){
         try{

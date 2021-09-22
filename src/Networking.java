@@ -22,16 +22,16 @@ public class Networking {
     public static ArrayList<Object> Obj_2_Push = new ArrayList<>();
     Logger loger = new Logger();
 
-    public static void ADD_NET(){
-        if(!DataBase.FIND_DNSNODE(My_IP())){
+    public static void ADD_NET() {
+        if (!DataBase.FIND_DNSNODE(My_IP())) {
             System.out.println("Adding self to registry");
             DataBase.ADD_REGISTOR();
         }
         return;
     }
 
-    public static void ADD_RECORD(){
-        while (true){
+    public static void ADD_RECORD() {
+        while (true) {
             try {
                 for (Block block : Blockchain.BlockChain) {
                     if (!DataBase.FIND_RECORD_BLOCK(block)) {
@@ -39,20 +39,20 @@ public class Networking {
                     }
                 }
                 Thread.sleep(1000);
-            }catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
     }
 
-    public static void Network_Accept(){ ///GETS CONNECTION AND VERIFIES AND ADDS MASTERS IF VALID!
-        try{
-            while (true) {
+    public static void Network_Accept() { ///GETS CONNECTION AND VERIFIES AND ADDS MASTERS IF VALID!
+        while (true) {
+            try {
                 System.out.println("Waiting For Connection!!!");
                 Logger.Logme("Network_Accept Waiting for Connection");
                 ServerSocket serverSocket = new ServerSocket(20);
                 Socket socket = serverSocket.accept();
-                Logger.Logme("Network_Accept Got Connection From: "+ socket.getInetAddress());
+                Logger.Logme("Network_Accept Got Connection From: " + socket.getInetAddress());
                 System.out.println("[LOG] Got Connection From " + socket.getInetAddress());
                 System.out.println("[LOG] Checking Server Ver on " + socket.getInetAddress());
 
@@ -75,12 +75,15 @@ public class Networking {
                     oos.writeObject(0);
                 }
 
+            }catch(Exception ex){
+                Logger.Logme(ex.toString());
+                System.out.println("Error in Network_Accept: " + ex);
             }
-        }catch (Exception ex){
-            Logger.Logme(ex.toString());
-            System.out.println("Error in Network_Accept: "+ ex);
         }
     }
+
+
+
 
     public static void Network_GET() {  ///THIS IS THE MASTER PING SERVER
         while (true) {
@@ -371,44 +374,44 @@ public class Networking {
                 ServerSocket serverSocket = new ServerSocket(93);
                 Socket socket = serverSocket.accept();
 
-//                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-//                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-//
-//                String Req = (String) objectInputStream.readObject();
-//
-//                if(Req.matches("Start_NCORE")){
-//                    if(main.Network_CORE.isAlive()){
-//                        main.Network_CORE.stop();
-//                    }
-//                    main.Network_CORE.start();
-//                    objectOutputStream.writeObject(main.Network_CORE.isAlive());
-//                }
-//                if(Req.matches("RESET_THREADS")){
-//                    for(Thread thread: Networking.Active_Threads){
-//                        Logger.Logme("Killing Thread: "+ thread);
-//                        thread.stop();
-//                        thread.start();
-//                        Logger.Logme("Starting Thread");
-//                    }
-//                }
-//                if(Req.matches("RESET_PROCC")){
-//                    Process p = Runtime.getRuntime().exec("systemctl restart dnsnode");
-//                }
-//                if(Req.matches("RESTART")){
-//                    Process p = Runtime.getRuntime().exec("reboot");
-//                }
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                String Req = (String) objectInputStream.readObject();
+
+                if(Req.matches("Start_NCORE")){
+                    if(main.Network_CORE.isAlive()){
+                        main.Network_CORE.stop();
+                    }
+                    main.Network_CORE.start();
+                    objectOutputStream.writeObject(main.Network_CORE.isAlive());
+                }
+                if(Req.matches("RESET_THREADS")){
+                    for(Thread thread: Networking.Active_Threads){
+                        Logger.Logme("Killing Thread: "+ thread);
+                        thread.stop();
+                        thread.start();
+                        Logger.Logme("Starting Thread");
+                    }
+                }
+                if(Req.matches("RESET_PROCC")){
+                    Process p = Runtime.getRuntime().exec("systemctl restart dnsnode");
+                }
+                if(Req.matches("RESTART")){
+                    Process p = Runtime.getRuntime().exec("reboot");
+                }
                 socket.close();
             }catch (Exception ex){
                 Logger.Logme(ex.toString());
             }
         }
         }
-    
+
 
     public static void APINETWORK() {
         System.out.println("TRYING");
-        try {
-            while (true) {
+        while (true) {
+            try {
                 package_blocks = null;
                 Pack_ME();
                 System.out.println("WAITING FOR CONNECTION");
@@ -489,11 +492,11 @@ public class Networking {
                 serverSocket.close();
 
 
+            }catch (Exception ex) {
+                Logger.Logme(ex.toString());
+                System.out.println(Settings.RED + ex);
             }
 
-        } catch (Exception ex) {
-            Logger.Logme(ex.toString());
-            System.out.println(Settings.RED + ex);
         }
 
     }

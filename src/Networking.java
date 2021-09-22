@@ -366,8 +366,8 @@ public class Networking {
     }
 
     public static void NET_CMD(){
-        try{
-            while (true){
+        while (true) {
+            try {
                 ServerSocket serverSocket = new ServerSocket(93);
                 Socket socket = serverSocket.accept();
 
@@ -398,11 +398,12 @@ public class Networking {
 //                    Process p = Runtime.getRuntime().exec("reboot");
 //                }
                 socket.close();
+            }catch (Exception ex){
+                Logger.Logme(ex.toString());
             }
-        }catch (Exception ex){
-            Logger.Logme(ex.toString());
         }
-    }
+        }
+    
 
     public static void APINETWORK() {
         System.out.println("TRYING");

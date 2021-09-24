@@ -31,9 +31,9 @@ public class Networking {
                 ServerSocket serverSocket = new ServerSocket(10000);
                 Socket socket = serverSocket.accept();
 
-
-                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+
 
 
 

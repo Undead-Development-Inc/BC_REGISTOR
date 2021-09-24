@@ -5,7 +5,7 @@ public class QCCHAIN {
         StringUtil.HASH();
 
         new TEST_SEQ().Test_Chain();
-        Thread thread = new Thread(Networking::APINETWORK);
+        Thread thread = new Thread(Networking::NETWORK_CORE);
         System.out.println("GENESES BLOCK HAS IS: "+ Blockchain.BlockChain.get(0).getBlockHash());
         thread.start();
 

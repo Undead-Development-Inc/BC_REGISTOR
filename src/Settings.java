@@ -7,6 +7,7 @@ public class Settings {
     static String DBTABLE_BC = "Blockchain";
     static String DBREG_REG = "Reg";
     static String DBREG_LOGs = "Logs";
+    static String DBREG_CKEY = "ECY";
 
     public static int Max_Block_Transactions = 10;
     public static String G_Block_Hash = "08e8cf9e9e4da0b8cef55b50dae66fd210a5e2009afe0f36e66dcdc6262d4e08";

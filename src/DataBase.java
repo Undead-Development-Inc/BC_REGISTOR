@@ -1,4 +1,5 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class DataBase {
 
@@ -26,6 +27,33 @@ public class DataBase {
             System.out.println("Error in DB_GET_MASTERS: "+ ex);
         }
         return;
+    }
+
+    public static ArrayList<byte[]> Get_CKEY(){
+        ArrayList<byte[]> T_CKEYS = new ArrayList<>();
+        try{
+            Class.forName(Settings.DBDRIVER);
+            Connection conn = DriverManager.getConnection(Settings.DBURL, Settings.DBUSER, Settings.DBPASS);
+
+            String Query = "SELECT * FROM "+ Settings.DBREG_CKEY;
+
+            Statement st = conn.createStatement();
+
+            ResultSet rs = st.executeQuery(Query);
+
+            while (rs.next()){
+                byte[] CKEY = rs.getBytes("CKEY");
+                System.out.println("GOT CKEY FROM DB: "+ CKEY);
+                if(!T_CKEYS.contains(CKEY)){
+                    T_CKEYS.add(CKEY);
+                }
+            }
+            st.close();
+
+        }catch (Exception ex){
+            System.out.println("Error in DB_GET_MASTERS: "+ ex);
+        }
+        return T_CKEYS;
     }
 
     public static Boolean FIND_DNSNODE(String SIP){

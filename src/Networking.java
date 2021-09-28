@@ -25,82 +25,144 @@ public class Networking {
     public static ArrayList<Block> Sus_Chain = new ArrayList<>();
     Logger loger = new Logger();
 
-    public static void NETWORK_CORE(){
-        try{
-            while (true){
+    public static void NETWORK_CORE() {
+
+        while (true) {
+            try {
+                System.out.println("Waiting For Connection");
                 ServerSocket serverSocket = new ServerSocket(10000);
                 Socket socket = serverSocket.accept();
-
-                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                System.out.println("GOT CONNECTION FROM: " + socket.getInetAddress());
                 ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+//                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                System.out.println("REACHED 1");
+                //ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                System.out.println("REACHED 2");
 
 
+                Object Req = (Object) objectInputStream.readObject();
+                Object PublicKey = (Object) objectInputStream.readObject();
 
-                if(objectInputStream.readObject() == String.class){
-                    String Str = (String) objectInputStream.readObject();
-                    Logger.Logme("Got Command: " + Str);
-
-                    if(Str.matches("Curr_Ver")){
-                        objectOutputStream.writeObject(Curr_Ver());
-                        Logger.Logme("SENT VER: "+ Curr_Ver());
-                    }
-                    if(Str.matches("Run_Commands")){
-                        ArrayList<String> Commands = (ArrayList<String>) objectInputStream.readObject();
-                        for(String C: Commands){
-                            Process p = Runtime.getRuntime().exec(C);
-                        }
-                    }
+                if (Req.getClass() == Commands.class) {
+                    Commands command = (Commands) Req;
+                    Process process = Runtime.getRuntime().exec(command.Command);
                 }
 
-                if(objectInputStream.readObject() == ArrayList.class.asSubclass(Block.class)){
-                   ArrayList<Block> blockArrayList = (ArrayList<Block>) objectInputStream.readObject();
-                   for(Block block: blockArrayList){
-                       if(!Blockchain.BlockChain.contains(block)){
-                           if(!Blockchain.MBlocks_NV.contains(block)){
-                               Logger.Logme("Adding New Block: "+ block.getBlockHash());
-                               Blockchain.MBlocks_NV.add(block);
-                           }
-                       }
-                   }
-                }
-
-                if(objectInputStream.readObject() == ArrayList.class.asSubclass(Transaction.class)){
-                    ArrayList<Transaction> New_Transactions = (ArrayList<Transaction>) objectInputStream.readObject();
-                    for(Transaction transaction: New_Transactions){
-                        if(!Blockchain.Mine_Transactions.contains(transaction)){
-                            Logger.Logme("Got New_Transaction: " + transaction);
-                            Blockchain.Mine_Transactions.add(transaction);
-                        }
+                if (Req.getClass() == String.class) {
+                    String R = (String) Req;
+                    switch (R) {
+                        case "Curr_Ver":
+                            objectOutputStream.writeObject(Curr_Ver());
+                        case "Status":
+                            objectOutputStream.writeObject("Alive");
+                        case "Contains_Block":
+                            Block block = (Block) objectInputStream.readObject();
+                            objectOutputStream.writeObject(block);
+                        case "AGREE_CHAIN":
+                            ArrayList<Block> Longest_Offered = (ArrayList<Block>) objectInputStream.readObject();
+                            objectOutputStream.writeObject(Longest_Offered == Blockchain.LONGEST_BLOCKCHAIN());
+                            if (Longest_Offered == Blockchain.LONGEST_BLOCKCHAIN()) {
+                                Blockchain.PENDING_ACCEPTED_BLOCKCHAIN.addAll(Longest_Offered);
+                            }
+                        case "New_Mined_Block":
+                            Block block1 = (Block) objectInputStream.readObject();
+                            if(!Blockchain.BlockChain.contains(block1)){
+                                if(!Blockchain.MBlocks_NV.contains(block1)){
+                                    Blockchain.MBlocks_NV.add(block1);
+                                }
+                            }
                     }
                 }
-
-                if(objectInputStream.readObject() == ArrayList.class.asSubclass(Blockchain.BlockChain.getClass())){
-                    ArrayList<Block> Recived_Blockchain = (ArrayList<Block>) objectInputStream.readObject();
-                    for(Block block: Recived_Blockchain){
-                        Sus_Chain.add(block);
-                    }
+                if (Req.getClass() == Package_Blocks.class) {
+                    Package_Blocks pkg = (Package_Blocks) Req;
                 }
 
-                objectOutputStream.flush();
-                objectOutputStream.close();
+
                 objectInputStream.close();
+                objectOutputStream.close();
                 socket.close();
+                serverSocket.close();
+            } catch (Exception ex) {
+                System.out.println(Settings.RED + ex + Settings.RESET);
+                Logger.Logme(ex.toString());
             }
-        }catch (Exception ex){
-            Logger.Logme(ex.toString());
         }
     }
 
-    public static Boolean Verify_Chain(ArrayList<Block> Sus_Chain){
+    public static void NEW_BLOCK(Block block){
         try{
-            while (true){
-                Socket socket = new Socket();
+            for(String Node: IPs){
+                if (!Node.matches(My_IP())){
+                    Socket socket = new Socket(Node, 10000);
+
+                    ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                    objectOutputStream.writeObject("New_Mined_Block");
+                    objectOutputStream.writeObject(null);
+                    objectOutputStream.writeObject(block);
+
+                    socket.close();
+                }
+                return;
+            }
+        }catch (Exception ex){
+            System.out.println(ex);
+        }
+    }
+
+    public static int Agree_ADD_Chain() {
+        int agreed = 0;
+        try {
+            for (String Node : IPs) {
+                if (!Node.matches(My_IP())) {
+                    Socket socket = new Socket(Node, 10000);
+
+                    ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                    objectOutputStream.writeObject(Blockchain.PENDING_ACCEPTED_BLOCKCHAIN);
+
+                    Boolean Accepted = (Boolean) objectInputStream.readObject();
+
+                    if (Accepted) {
+                        agreed += 1;
+                    }
+
+                    socket.close();
+                }
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return agreed;
+    }
+
+    public static int Verify_Chain(Block block){
+        int Nodes_Containing = 0;
+        try{
+            for(String IP: IPs) {
+                Socket socket = new Socket(IP, 10000);
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+                objectOutputStream.writeObject("Contains_Block");
+                objectOutputStream.writeObject(null);
+                objectOutputStream.writeObject(block);
+
+                Boolean isContained = (Boolean) objectInputStream.readObject();
+
+                if(isContained){
+                    Nodes_Containing += 1;
+                }
+
             }
         }catch (Exception ex){
             Logger.Logme("ERROR VERIFY CHAIN: "+ ex);
             System.out.println(ex);
         }
-        return true;
+        return Nodes_Containing;
     }
 
     public static void ADD_NET() {

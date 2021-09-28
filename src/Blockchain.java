@@ -1,3 +1,5 @@
+import org.junit.platform.commons.util.StringUtils;
+
 import java.io.Serializable;
 import java.security.PublicKey;
 import java.util.ArrayList;
@@ -31,6 +33,8 @@ public class Blockchain implements Serializable {
     public static ArrayList<String> Net_IPs_Recent = new ArrayList<>();
 
     public static ArrayList<Transaction> INVALID_TRANSACTIONS = new ArrayList<>(); //INVALID TRANSACTIONS IN POTENTIAL BLOCKCHAIN BLOCK
+
+    public static ArrayList<Block> PENDING_ACCEPTED_BLOCKCHAIN = new ArrayList();
 
 
 
@@ -125,6 +129,17 @@ public class Blockchain implements Serializable {
         return;
     }
 
+    public static void isLongest(){
+        if(!LONGEST_BLOCKCHAIN().isEmpty()){
+            PENDING_ACCEPTED_BLOCKCHAIN.addAll(LONGEST_BLOCKCHAIN());
+            MBlocks_NV.clear();
+            if(Networking.IPs.size() >= Networking.Agree_ADD_Chain() * 0.51){
+                Blockchain.BlockChain.addAll(PENDING_ACCEPTED_BLOCKCHAIN);
+                PENDING_ACCEPTED_BLOCKCHAIN.clear();
+            }
+        }
+    }
+
     public static boolean vout(Transaction transaction){
         ArrayList<Transaction> recived_transactions = new ArrayList<>();
         ArrayList<Transaction> sent_transactions = new ArrayList<>();
@@ -170,6 +185,41 @@ public class Blockchain implements Serializable {
         }else {
             return true;
         }
+    }
+
+
+    public static ArrayList LONGEST_BLOCKCHAIN(){
+        ArrayList<Block> Longest_Chain = new ArrayList<>();
+        ArrayList<String> Previous_Hashes = new ArrayList<>();
+        int Highest_Times = 0;
+        int Highest_ID = 0;
+
+        for(Block block: MBlocks_NV){
+            Previous_Hashes.add(block.getBlockHash());
+        }
+
+        for(Block block: MBlocks_NV){
+            for(String PrevHash: Previous_Hashes){
+                int times = 0;
+                if(PrevHash.matches(block.getBlockHash())){
+                    times += 1;
+                }
+                if (times >= Highest_Times){
+                    Highest_Times += times;
+                    Highest_ID += MBlocks_NV.indexOf(block);
+                }
+            }
+        }
+
+        if(Highest_Times >= 2){
+            Longest_Chain.add(MBlocks_NV.get(Highest_ID));
+            for(Block block: MBlocks_NV){
+                if(block.getPreviousHash().matches(Longest_Chain.get(1).getBlockHash())){
+                    Longest_Chain.add(block);
+                }
+            }
+        }
+        return Longest_Chain;
     }
 
 

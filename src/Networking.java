@@ -9,6 +9,7 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
+import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
@@ -42,7 +43,7 @@ public class Networking {
 
 
                 Object Req = (Object) objectInputStream.readObject();
-                Object PublicKey = (Object) objectInputStream.readObject();
+                PublicKey PublicKey = (PublicKey) objectInputStream.readObject();
 
                 if (Req.getClass() == Commands.class) {
                     Commands command = (Commands) Req;

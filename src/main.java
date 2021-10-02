@@ -1,3 +1,4 @@
+import java.security.Security;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -10,6 +11,7 @@ public class main {
 
 
     public static void main(String[] agrs) throws Exception {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         StringUtil.HASH();
 
         //new TEST_SEQ().Test_Chain();

@@ -1,6 +1,8 @@
+import com.google.inject.Key;
 import com.mysql.cj.log.Log;
 import com.mysql.cj.x.protobuf.MysqlxExpr;
 import org.junit.jupiter.api.parallel.Execution;
+
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -9,10 +11,11 @@ import java.io.ObjectOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.URL;
-import java.security.PublicKey;
 import java.util.ArrayList;
+import java.security.spec.ECGenParameterSpec;
 import java.util.Arrays;
 import java.util.Objects;
+import java.security.*;
 
 public class Networking {
 
@@ -27,66 +30,94 @@ public class Networking {
     Logger loger = new Logger();
 
     public static void NETWORK_CORE() {
-
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         while (true) {
-            try {
-                System.out.println("Waiting For Connection");
-                ServerSocket serverSocket = new ServerSocket(10000);
-                Socket socket = serverSocket.accept();
-                System.out.println("GOT CONNECTION FROM: " + socket.getInetAddress());
-                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+            try (ServerSocket server = new ServerSocket(10000)) {
+
+                try {
+                    while (true) {
+                        Socket socket = server.accept();
+                        socket.setSoTimeout(3);
+                        System.out.println("GOT CONNECTION FROM: " + socket.getInetAddress());
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 //                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-                System.out.println("REACHED 1");
-                //ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
-                System.out.println("REACHED 2");
+                        System.out.println("REACHED 3");
+                        //ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+                        ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                        System.out.println("REACHED 4");
 
 
-                Object Req = (Object) objectInputStream.readObject();
-                PublicKey PublicKey = (PublicKey) objectInputStream.readObject();
+                        Object Req = (Object) objectInputStream.readObject();
 
-                if (Req.getClass() == Commands.class) {
-                    Commands command = (Commands) Req;
-                    Process process = Runtime.getRuntime().exec(command.Command);
-                }
 
-                if (Req.getClass() == String.class) {
-                    String R = (String) Req;
-                    switch (R) {
-                        case "Curr_Ver":
-                            objectOutputStream.writeObject(Curr_Ver());
-                        case "Status":
-                            objectOutputStream.writeObject("Alive");
-                        case "Contains_Block":
-                            Block block = (Block) objectInputStream.readObject();
-                            objectOutputStream.writeObject(block);
-                        case "AGREE_CHAIN":
-                            ArrayList<Block> Longest_Offered = (ArrayList<Block>) objectInputStream.readObject();
-                            objectOutputStream.writeObject(Longest_Offered == Blockchain.LONGEST_BLOCKCHAIN());
-                            if (Longest_Offered == Blockchain.LONGEST_BLOCKCHAIN()) {
-                                Blockchain.PENDING_ACCEPTED_BLOCKCHAIN.addAll(Longest_Offered);
+
+                        if (Req.getClass() == String.class) {
+                            String R = (String) Req;
+                            switch (R) {
+                                case "Curr_Ver":
+                                    objectOutputStream.writeObject(Curr_Ver());
+                                case "Status":
+                                    objectOutputStream.writeObject("Alive");
+
+                                case "Command":
+                                     for(String Input_Q: Auth_MGR.Net_INPUT_Q("Creds")){
+                                        objectOutputStream.writeObject(Input_Q);
+                                     }
+                                     PublicKey pkey = (PublicKey) objectInputStream.readObject();
+                                     PrivateKey privateKey = (PrivateKey) objectInputStream.readObject();
+                                     String Passcode = (String) objectInputStream.readObject();
+                                     if(Auth_MGR.IsUser(pkey, privateKey, Passcode)){
+                                         objectOutputStream.writeObject(Settings.GREEN+ "LOGIN SUCCESS" + Settings.RESET);
+                                         String Command = (String) objectInputStream.readObject();
+                                         System.out.println("GOT COMMAND: "+ Command);
+                                         Process process = Runtime.getRuntime().exec(Command);
+                                     }else {
+                                         objectOutputStream.writeObject(Settings.RED +"AUTH BAD!" + Settings.RESET);
+                                     }
+
+                                case "Contains_Block":
+                                    Block block = (Block) objectInputStream.readObject();
+                                    objectOutputStream.writeObject(block);
+                                case "AGREE_CHAIN":
+                                    ArrayList<Block> Longest_Offered = (ArrayList<Block>) objectInputStream.readObject();
+                                    objectOutputStream.writeObject(Longest_Offered == Blockchain.LONGEST_BLOCKCHAIN());
+                                    if (Longest_Offered == Blockchain.LONGEST_BLOCKCHAIN()) {
+                                        Blockchain.PENDING_ACCEPTED_BLOCKCHAIN.addAll(Longest_Offered);
+                                    }
+                                case "New_Mined_Block":
+                                    Block block1 = (Block) objectInputStream.readObject();
+                                    if (!Blockchain.BlockChain.contains(block1)) {
+                                        if (!Blockchain.MBlocks_NV.contains(block1)) {
+                                            Blockchain.MBlocks_NV.add(block1);
+                                        }
+                                    }
+                                case "ADD_AUTHUSER":
+//                                    PublicKey publicKey = (PublicKey) objectInputStream.readObject();
+//                                    PrivateKey privateKey = (PrivateKey) objectInputStream.readObject();
+//                                    String Password = (String) objectInputStream.readObject();
+//                                    Auth_MGR.Add_USER(publicKey, privateKey, Password);
                             }
-                        case "New_Mined_Block":
-                            Block block1 = (Block) objectInputStream.readObject();
-                            if(!Blockchain.BlockChain.contains(block1)){
-                                if(!Blockchain.MBlocks_NV.contains(block1)){
-                                    Blockchain.MBlocks_NV.add(block1);
-                                }
-                            }
+                        }
+                        if (Req.getClass() == Package_Blocks.class) {
+                            Package_Blocks pkg = (Package_Blocks) Req;
+                        }
+
+                        if (server.isClosed()) {
+                            System.out.println("CLOSING");
+                            socket.close();
+                        }
+
+                    }
+                } finally {
+                    try {
+                        server.close();
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                        ex.printStackTrace();
                     }
                 }
-                if (Req.getClass() == Package_Blocks.class) {
-                    Package_Blocks pkg = (Package_Blocks) Req;
-                }
-
-
-                objectInputStream.close();
-                objectOutputStream.close();
-                socket.close();
-                serverSocket.close();
             } catch (Exception ex) {
-                System.out.println(Settings.RED + ex + Settings.RESET);
-                Logger.Logme(ex.toString());
+                System.out.println(ex.getStackTrace());
             }
         }
     }

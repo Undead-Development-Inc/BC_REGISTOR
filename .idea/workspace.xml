@@ -7,8 +7,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2defeb36-de42-4780-97d1-3c9d85327066" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Auth_MGR.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Key.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/BC_REGISTOR_jar/BC_REGISTOR.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/BC_REGISTOR_jar/BC_REGISTOR.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/Commands.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BC_REGISTOR/Commands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/DataBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BC_REGISTOR/DataBase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/Networking.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BC_REGISTOR/Networking.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/Settings.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/BC_REGISTOR/Settings.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Commands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Commands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DataBase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataBase.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Networking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Networking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Settings.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +59,7 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/../Remote_MGMR_INTER" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -105,7 +115,7 @@
       <workItem from="1632427195998" duration="11004000" />
       <workItem from="1632605392810" duration="210000" />
       <workItem from="1632845290599" duration="14396000" />
-      <workItem from="1632928604643" duration="8777000" />
+      <workItem from="1632928604643" duration="24766000" />
     </task>
     <servers />
   </component>

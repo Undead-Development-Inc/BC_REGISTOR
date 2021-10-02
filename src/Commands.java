@@ -1,8 +1,9 @@
+import java.io.Serializable;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.ArrayList;
 
-public class Commands {
+public class Commands implements Serializable {
 
     public static ArrayList<byte[]> EKEYS = new ArrayList<>();
     public String Command = "";

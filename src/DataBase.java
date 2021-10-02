@@ -1,3 +1,7 @@
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.ECGenParameterSpec;
+import java.security.*;
 import java.sql.*;
 import java.util.ArrayList;
 
@@ -126,6 +130,56 @@ public class DataBase {
             System.out.println("Error in DB_ADD_Master: "+ ex);
         }
         return;
+    }
+
+
+    public static void ADD_AUTH_USER(String Hash){
+        try{
+            Class.forName(Settings.DBDRIVER);
+            Connection conn = DriverManager.getConnection(Settings.DBURL, Settings.DBUSER, Settings.DBPASS);
+
+            String Query = "insert into "+ Settings.DBREG_AUTHUSERS + " (Hash)" + "values (?)";
+
+            PreparedStatement preparedStatement = conn.prepareStatement(Query);
+
+            preparedStatement.setObject(1, Hash);
+
+            preparedStatement.execute();
+
+            conn.close();
+
+        }catch (Exception ex){
+            System.out.println("Error in DB_ADDUSER: "+ ex);
+        }
+        return;
+    }
+
+    public static Boolean FIND_AUTHUSER(PublicKey publicKey, PrivateKey privateKey, String Password){
+        try{
+            Class.forName(Settings.DBDRIVER);
+            Connection conn = DriverManager.getConnection(Settings.DBURL, Settings.DBUSER, Settings.DBPASS);
+
+            String Query = "SELECT * FROM "+ Settings.DBREG_AUTHUSERS;
+
+            Statement st = conn.createStatement();
+
+            ResultSet rs = st.executeQuery(Query);
+
+            while (rs.next()){
+                String Hash = (String) rs.getString("Hash");
+
+
+                if(StringUtil.applySha512(publicKey+privateKey.toString()+Password).matches(Hash)){
+                    System.out.println("Found User!!");
+                    return true;
+                }
+            }
+            st.close();
+
+        }catch (Exception ex){
+            System.out.println("Error in DB_FIND_USER: "+ ex);
+        }
+        return false;
     }
 
     public static void ADD_LOG(String Log){

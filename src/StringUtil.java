@@ -174,9 +174,9 @@ public class StringUtil implements Serializable {
         }
     }
 
-    public static String getStringFromKey(Key key) {
-        return Base64.getEncoder().encodeToString(key.getEncoded());
-    }
+//    public static String getStringFromKey(Key key) {
+//        return Base64.getEncoder().encodeToString(key.getEncoded());
+//    }
 
     public static String HASH(){
         String ClassHash = StringUtil.applySha512(StringUtil.class.toString() + Block.class.toString() + Blockchain.class.toString() + Block_Reward.class.toString());

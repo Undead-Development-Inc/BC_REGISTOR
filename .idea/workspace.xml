@@ -7,10 +7,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2defeb36-de42-4780-97d1-3c9d85327066" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/BC_REGISTOR.iml" beforeDir="false" afterPath="$PROJECT_DIR$/BC_REGISTOR.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/StringUtil.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/TEST_FUNCTIONS.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/BC_REGISTOR/TEST_SEQ.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +104,8 @@
       <workItem from="1632427195998" duration="11004000" />
       <workItem from="1632605392810" duration="210000" />
       <workItem from="1632845290599" duration="14396000" />
-      <workItem from="1632928604643" duration="26111000" />
+      <workItem from="1632928604643" duration="30266000" />
+      <workItem from="1633801763058" duration="7000" />
     </task>
     <servers />
   </component>

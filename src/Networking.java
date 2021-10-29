@@ -16,6 +16,8 @@ import java.security.spec.ECGenParameterSpec;
 import java.util.Arrays;
 import java.util.Objects;
 import java.security.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Networking {
 
@@ -27,17 +29,29 @@ public class Networking {
     public static ArrayList<String> IPDNS_SYNC_NODES = new ArrayList<>();
     public static ArrayList<Object> Obj_2_Push = new ArrayList<>();
     public static ArrayList<Block> Sus_Chain = new ArrayList<>();
-    Logger loger = new Logger();
+    public static ArrayList<String> Client_Conn_Allowed = new ArrayList<>();
+    public static ArrayList<String> Clients_Connected = new ArrayList<>();
+    public static ArrayList<ClientHandler> New_Clients = new ArrayList<>();
+    public static ExecutorService CLIENTS_THREADS = Executors.newFixedThreadPool(900000);
+    public static ExecutorService WAITLIST_NOCLIENTS = Executors.newFixedThreadPool(900000);
+    
 
     public static void NETWORK_CORE() {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
         while (true) {
             try (ServerSocket server = new ServerSocket(10000)) {
+                if(server.isClosed()){
+                    Networking.Logs.add("NETWORK CORE: CLOSED");
+                }
+                if(!server.isClosed()){
+                    Networking.Logs.add("NETWORK CORE: ACTIVE");
+                }
 
                 try {
                     while (true) {
                         Socket socket = server.accept();
-                        socket.setSoTimeout(3);
+                        Networking.Logs.add("NETWORK CORE: GOT CONNECTION FROM "+ socket.getInetAddress());
+                        socket.setSoTimeout(300);
                         System.out.println("GOT CONNECTION FROM: " + socket.getInetAddress());
                         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
 //                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
@@ -84,6 +98,15 @@ public class Networking {
                                     if (Longest_Offered == Blockchain.LONGEST_BLOCKCHAIN()) {
                                         Blockchain.PENDING_ACCEPTED_BLOCKCHAIN.addAll(Longest_Offered);
                                     }
+                                case "WHOS_CLIENT":
+                                    String Client_Address = (String) objectInputStream.readObject();
+                                    if(!Clients_Connected.contains(Client_Address)){
+                                        objectOutputStream.writeObject(false);
+                                    }else {
+                                        Socket socket1 = new Socket(My_IP(), 65534);
+                                        socket1.close();
+                                        objectOutputStream.writeObject(socket1);
+                                    }
                                 case "New_Mined_Block":
                                     Block block1 = (Block) objectInputStream.readObject();
                                     if (!Blockchain.BlockChain.contains(block1)) {
@@ -96,6 +119,7 @@ public class Networking {
 //                                    PrivateKey privateKey = (PrivateKey) objectInputStream.readObject();
 //                                    String Password = (String) objectInputStream.readObject();
 //                                    Auth_MGR.Add_USER(publicKey, privateKey, Password);
+
                             }
                         }
                         if (Req.getClass() == Package_Blocks.class) {
@@ -106,19 +130,86 @@ public class Networking {
                             System.out.println("CLOSING");
                             socket.close();
                         }
+                        socket.close();
+                        Networking.Logs.add("NETWORK CORE: CONNECTION CLOSED "+ socket.getInetAddress());
 
-                    }
+                   }
                 } finally {
                     try {
                         server.close();
                     } catch (Exception ex) {
                         System.out.println(ex);
+                        Networking.Logs.add("ERROR IN NETWORKING: "+ ex);
                         ex.printStackTrace();
                     }
                 }
             } catch (Exception ex) {
                 System.out.println(ex.getStackTrace());
             }
+        }
+    }
+
+    public static void Data_Client(){
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+        while (true) {
+            try (ServerSocket server = new ServerSocket(65534)) {
+                if(server.isClosed()){
+                    Networking.Logs.add("NETWORK CORE: CLOSED");
+                }
+                if(!server.isClosed()){
+                    Networking.Logs.add("NETWORK CORE: ACTIVE");
+                }
+
+                try {
+                    while (true) {
+                        Socket socket = server.accept();
+                        Networking.Logs.add("NETWORK CLIENT: GOT CONNECTION FROM "+ socket.getInetAddress());
+                        socket.setSoTimeout(300);
+                        System.out.println("GOT CONNECTION FROM: " + socket.getInetAddress());
+                        System.out.println("REACHED 2");
+
+
+                        ClientHandler client = new ClientHandler(socket);
+                        New_Clients.add(client);
+                        Logs.add(My_IP()+ " Created New Client: "+ client);
+
+
+                    }
+                } finally {
+                    try {
+
+                    } catch (Exception ex) {
+                        System.out.println(ex);
+                        Networking.Logs.add("ERROR IN CLIENT NETWORKING: "+ ex);
+                        ex.printStackTrace();
+                    }
+                }
+            } catch (Exception ex) {
+                System.out.println(ex.getStackTrace());
+            }
+        }
+
+    }
+
+    public static void MakeMatch_Clients(){
+        Thread Client_Conn;
+        try{
+            while (true) {
+                if(!(New_Clients.size() <= 1)){
+                    for(ClientHandler client: New_Clients){
+                        int last_id = New_Clients.lastIndexOf(client.Client_Address);
+                        if(!(New_Clients.indexOf(client) == last_id)){
+                            System.out.println("FOUND CLIENT CONNECTION");
+                            Client_Mgr client_conn = new Client_Mgr(client, New_Clients.get(last_id));
+                            Client_Conn = new Thread(client_conn);
+                            CLIENTS_THREADS.execute(Client_Conn);
+                            Logs.add("MAKING NEW CLIENT CONNECTION");
+                        }
+                    }
+                }
+            }
+        }catch (Exception ex){
+            System.out.println(ex);
         }
     }
 
@@ -142,6 +233,35 @@ public class Networking {
         }catch (Exception ex){
             System.out.println(ex);
         }
+    }
+
+    public static Socket Find_Client(String Client_Address){
+        for(String Server: Networking.IPs){
+            try{
+                Socket socket = new Socket(Server, 10000);
+                System.out.println("Connected");
+                ObjectInputStream objectInputStream = new ObjectInputStream(socket.getInputStream());
+                ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
+
+
+                objectOutputStream.writeObject("Whos_Client");
+
+                Object res = (Object) objectInputStream.readObject();
+
+                if(res.getClass() == Boolean.class){
+                    Networking.Logs.add(Client_Address + "Client Not Found at: "+ My_IP());
+                }
+                if(res.getClass() == Socket.class){
+                    Socket socket1 = (Socket) res;
+                    return socket1;
+                }
+
+
+            }catch (Exception ex){
+                System.out.println(ex);
+            }
+        }
+        return null;
     }
 
     public static int Agree_ADD_Chain() {
@@ -191,7 +311,7 @@ public class Networking {
 
             }
         }catch (Exception ex){
-            Logger.Logme("ERROR VERIFY CHAIN: "+ ex);
+            Networking.Logs.add("ERROR VERIFY CHAIN: "+ ex);
             System.out.println(ex);
         }
         return Nodes_Containing;

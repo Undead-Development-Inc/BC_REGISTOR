@@ -7,7 +7,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2defeb36-de42-4780-97d1-3c9d85327066" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/ClientHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Client_Mgr.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Auth_MGR.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Auth_MGR.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Block.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Block.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Blockchain.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Blockchain.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Chain_Verification.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Chain_Verification.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Commands.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Commands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/DATA_Procces.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/DATA_Procces.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/DataBase.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/DataBase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/ErrorMgr.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/ErrorMgr.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Logger.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Logger.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Message_Package.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Message_Package.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Mine.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Mine.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Networking.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Networking.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Packager.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Packager.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/QCCHAIN.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/QCCHAIN.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/StringUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/StringUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/TEST_FUNCTIONS.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/TEST_FUNCTIONS.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Transaction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/Wallet.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/Wallet.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/main.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DATA_Procces.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DATA_Procces.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Logger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Networking.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Networking.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +72,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Remote_MGMR_INTER" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -106,6 +131,8 @@
       <workItem from="1632845290599" duration="14396000" />
       <workItem from="1632928604643" duration="30266000" />
       <workItem from="1633801763058" duration="7000" />
+      <workItem from="1633806197659" duration="3729000" />
+      <workItem from="1634264048212" duration="16599000" />
     </task>
     <servers />
   </component>

@@ -13,7 +13,7 @@ public class DATA_Procces implements Runnable{
                 if(!Blockchain.MBlocks_NV.contains(block)){
                     Blockchain.MBlocks_NV.add(block);
                     Networking.NEW_BLOCK(block);
-                    Logger.Logme("GOT NEW MINED BLOCK: "+ block.getBlockHash());
+                    Networking.Logs.add("GOT NEW MINED BLOCK: "+ block.getBlockHash());
                 }
             }
         }
@@ -21,7 +21,7 @@ public class DATA_Procces implements Runnable{
         for(Block block: Blockchain.MBlocks_NV){
             for(Transaction transaction: package_blocks.Newly_CreatedTransactions) {
                 if (block.transactions.contains(transaction)){
-                    Logger.Logme("DUPLICATE TRANSACTION: "+ transaction.transhash);
+                    Networking.Logs.add("DUPLICATE TRANSACTION: "+ transaction.transhash);
                 }else {
                     Blockchain.Mine_Transactions.add(transaction);
                 }
@@ -31,7 +31,7 @@ public class DATA_Procces implements Runnable{
         for(Block block: package_blocks.blockchain){
             if(!Blockchain.BlockChain.contains(block)){
                 System.out.println("FLAG BLOCK NOT EXISTING: "+ block.getBlockHash());
-                Logger.Logme("FLAG BLOCK NOT EXISTING: "+ block.getBlockHash());
+                Networking.Logs.add("FLAG BLOCK NOT EXISTING: "+ block.getBlockHash());
                 SUS_BLOCKS.add(block);
                 SUS_NODES.add(IP);
             }
